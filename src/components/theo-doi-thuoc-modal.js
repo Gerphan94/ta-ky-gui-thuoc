@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import { PiSignature } from "react-icons/pi";
-import DatePicker from "react-datepicker";
 import ChuyenPhieuModal from "./chuyen-phieu-modal";
 import HoanTatPhieuModal from "./hoan-tat-phieu-modal";
 
-import "react-datepicker/dist/react-datepicker.css";
 
 
 const MedList = [
@@ -38,7 +36,9 @@ const MedList = [
 ]
 
 const formatted = (day) => {
-    return day.toLocaleDateString("en-GB"); // returns dd/MM/yyyy
+    // day = 2025-12-08
+
+    return day.split("-").reverse().join("/");
 };
 
 
@@ -49,7 +49,8 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
 
     const [medicines, setmedicines] = useState(MedList);
     const [note, setNote] = useState("");
-    const [ngayylenh, setNgayYLenh] = useState(new Date());
+
+    const [ngayylenh, setNgayYLenh] = useState(new Date().toLocaleDateString("en-GB"));
     const [showChuyenPhieu, setShowChuyenPhieu] = useState(false);
     const [showHoanTatPhieu, setShowHoanTatPhieu] = useState(false);
 
@@ -121,20 +122,20 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
 
                     <div className="flex gap-4 mt-4">
                         <div className="text-left">
-                            <label className="block text-sm font-medium">Ngày y lệnh</label>
-                            <DatePicker
-                                selected={ngayylenh}
-                                onChange={(date) => setNgayYLenh(date)}
-                                dateFormat="dd/MM/yyyy"
-                                className="border rounded px-2 py-1 mt-1 w-32"
-
+                            <label className="block text-sm font-medium">Ngày y lệnh 1</label>
+                            <input
+                                type="date"
+                                value={ngayylenh} // ✅ Correct date format: YYYY-MM-DD
+                                onChange={(e) => setNgayYLenh(e.target.value)} // store string directly
+                                className="border rounded px-2 py-1 mt-1 w-40"
                             />
                         </div>
+
                         <div className="flex flex-col justify-end">
                             <div></div>
                             <button
                                 className="border rounded px-2 py-1 mt-1 bg-blue-500 text-white hover:bg-blue-700"
-                                onClick={() => setNgayYLenhList([...ngayylenhList, formatted(ngayylenh)])}
+                                onClick={() => setNgayYLenhList([...ngayylenhList, formatted(ngayylenh)])} // ✅ Correct date format: YYYY-MM-DD ngayylenh])}
                             >
                                 Thêm
                             </button>
@@ -236,7 +237,7 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                 className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded"
                                 onClick={() => setShowHoanTatPhieu(true)}
                             >
-                               Hoàn tất
+                                Hoàn tất
                             </button>
                             <button
                                 className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded"
@@ -246,7 +247,7 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                             </button>
                         </div>
                         <div className="flex gap-2">
-                            <button  onClick={() => setShow(false)} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
+                            <button onClick={() => setShow(false)} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
                                 Lưu
                             </button>
                             <button
