@@ -49,8 +49,9 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
 
     const [medicines, setmedicines] = useState(MedList);
     const [note, setNote] = useState("");
+    const today = new Date();
 
-    const [ngayylenh, setNgayYLenh] = useState(new Date().toLocaleDateString("en-GB"));
+    const [ngayylenh, setNgayYLenh] = useState(today);
     const [showChuyenPhieu, setShowChuyenPhieu] = useState(false);
     const [showHoanTatPhieu, setShowHoanTatPhieu] = useState(false);
 
@@ -122,15 +123,14 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
 
                     <div className="flex gap-4 mt-4">
                         <div className="text-left">
-                            <label className="block text-sm font-medium">Ngày y lệnh 1</label>
+                            <label className="block text-sm font-medium">Ngày y lệnh</label>
                             <input
                                 type="date"
-                                value={ngayylenh} // ✅ Correct date format: YYYY-MM-DD
-                                onChange={(e) => setNgayYLenh(e.target.value)} // store string directly
+                                value={ngayylenh ? new Date(ngayylenh).toISOString().split("T")[0] : ""}
+                                onChange={(e) => setNgayYLenh(e.target.value)}
                                 className="border rounded px-2 py-1 mt-1 w-40"
                             />
                         </div>
-
                         <div className="flex flex-col justify-end">
                             <div></div>
                             <button
@@ -181,14 +181,11 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                                 autoComplete="off"
                                                 className="w-48 border rounded p-1 outline-none" />
                                         </td>
-
                                         {ngayylenhList.map((ngayylenh, index) => (
                                             <td key={index} className="p-2 text-center">
                                                 <input
                                                     type="number"
                                                     className="border rounded px-2 py-1 w-20"
-
-
                                                 />
                                             </td>
                                         ))}
@@ -206,7 +203,6 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                             <button>
                                                 <PiSignature className="size-8 text-gray-500" />
                                             </button>
-
                                         </td>
                                     ))}
                                 </tr>
@@ -222,7 +218,6 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                             <button>
                                                 <PiSignature className="size-8 text-gray-500" />
                                             </button>
-
                                         </td>
                                     ))}
                                 </tr>
