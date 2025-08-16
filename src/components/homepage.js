@@ -1,18 +1,15 @@
 import React, { useState } from "react";
 
 import KyGuiThuoc from "./ky-gui-thuoc";
+import DanhMuc from "./danh-muc";   
 function HomePage() {
 
     const menu = [
-        { id: 'ky-gui-thuoc', title: 'Ký gửi thuốc', link: 'ky-gui-thuoc' },
+        { id: 'ky-gui-thuoc', title: 'Ký gửi thuốc' },
+        { id: 'danh-muc', title: 'Danh mục' },
     ]
-    const currentPath = window.location.pathname.split('/').pop();
-    const [sltMenu, setSltMenu] = useState(menu[0].id);
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
+    const [sltMenu, setSltMenu] = useState('ky-gui-thuoc');
 
-    const [showTThuoc, setShowTThuoc] = useState(false);
-    const [sltTrangThai, setSltTrangThai] = useState(-1);
 
     return (
         <>
@@ -26,19 +23,19 @@ function HomePage() {
                         </div>
                         <div className="mt-20 text-left space-y-1">
                             {menu.map((item) => (
-                                <a
+                                <div
                                     key={item.id}
-                                    className={`text-lg w-full block font-semibold cursor-pointer ${currentPath === item.link ? 'bg-[#017BFB]' : ''} hover:bg-[#017BFB] px-10 py-1 rounded`}
+                                    className={`text-lg w-full block font-semibold cursor-pointer ${sltMenu === item.id ? 'bg-[#017BFB]' : ''} hover:bg-[#017BFB] px-10 py-1 rounded`}
                                     onClick={() => setSltMenu(item.id)}
-                                    href={`${item.link}`}
-                                >{item.title}</a>
+                                >{item.title}</div>
                             ))}
                         </div>
                     </div>
 
                     {/* Main Content */}
                     <div className="flex-1 ml-56 ">
-                        <KyGuiThuoc />
+                        {sltMenu === 'ky-gui-thuoc' && <KyGuiThuoc /> }
+                        {sltMenu === 'danh-muc' && <DanhMuc /> }
                     </div>
 
 
