@@ -1,72 +1,71 @@
 import { useEffect, useState } from "react";
-import { usersNhaThuoc, usersCC, usersKKB } from "../data/user-data";
+import { users } from "../data/user-data";
 import UserTable from "./danh-muc-user-table";
-
+import AddUserModal from "./add-user-modal";
+import { CiSearch } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
 function DanhMuc() {
 
-    const [userData, setUserData] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [showAdd, setShowAdd] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
 
-    const fullUsers = [...usersNhaThuoc, ...usersCC, ...usersKKB];
+    const handleSearch = (value) => {
+        setSearchQuery(value);
+        setCurrentPage(1);
+    };
 
-    const khoas = [
-        { id: 'nt', name: "Nhà thuốc" },
-        { id: 'kc', name: "Khoa khám bệnh" },
-        { id: 'cc', name: "Khoa cấp cúu" },
-        { id: 'ccq7', name: "Khoa cấp cúu Q7" },
-    ]
+    const filterData = users.filter((item) => item.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.fullname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.department.toLowerCase().includes(searchQuery.toLowerCase()));
 
-    const [sltKhoaId, setSltKhoaId] = useState('');
 
-    useEffect(() => {
-        if (sltKhoaId === 'nt') {
-            setUserData(usersNhaThuoc)
-        } else if (sltKhoaId === 'kc') {
-            setUserData(usersKKB)
-        } else if (sltKhoaId === 'cc') {
-            setUserData(usersCC)
-        } else {
-            setUserData([])
-        }
-    }, [sltKhoaId])
+
+
 
     return (
         <>
             <div className="w-1/2 mx-auto mt-10 bg-white rounded shadow p-6">
-                <div className="w-full  rounded">
-                    <div className="text-left flex gap-2 items-center w-1/2">
-                        <label className="w-20 font-semibold">Bộ phận</label>
-                        <select className="px-2 py-1 border w-full"
-                            value={sltKhoaId}
-                            onChange={(e) => setSltKhoaId(e.target.value)}
-                        >
-                            <option value="" hidden selected>-- Chọn bộ phân --</option>
-                            {khoas.map((khoa, index) => (
-                                <option key={khoa.id} value={khoa.id}>{khoa.name}</option>
-                            ))}
-                        </select>
+
+                <div className="flex justify-between">
+                    <div className="relative w-96">
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                            <CiSearch className="h-4 w-4 text-gray-400" />
+                        </div>
+                        <input
+                            id='search'
+                            name='search'
+                            type="text"
+                            autoComplete="off"
+                            spellCheck="false"
+                            placeholder='Tìm kiếm'
+                            value={searchQuery}
+                            onChange={(e) => handleSearch(e.target.value)}
+                            className="w-full pl-10 pr-8 py-1 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors select-none"
+                        />
+                        {searchQuery && (
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600"
+                            >
+                                <IoMdClose className="h-4 w-4" />
+                            </button>
+                        )}
                     </div>
 
-                </div>
-                <div>
-                    <div className="text-left mt-4 flex gap-2 items-center">
-                        <label className="font-semibold">User name:</label>
-                        <select className="px-2 py-1 border">
-                            <option value="" hidden selected>-- Chọn User --</option>
-                            {fullUsers.map((user) => (
-                                <option key={user.id} value={user.id}>{user.username} - {user.fullname}</option>
-                            ))}
-                        </select>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1 rounded">Thêm</button>
-                    </div>
-                </div>
+                    <button
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded"
+                        onClick={() => setShowAdd(true)}
 
-                <div className="mt-6">
-                    <UserTable data={userData} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    >Thêm</button>
+                </div>
+                <div className="mt-2">
+                    <UserTable data={filterData} currentPage={currentPage} setCurrentPage={setCurrentPage} />
 
                 </div>
 
             </div>
+            <AddUserModal show={showAdd} setShow={setShowAdd} users={users} />
         </>
     );
 }

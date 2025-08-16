@@ -17,6 +17,7 @@ function UserTable({ data, setShowTheoDoiThuoc, setSltPhieu, currentPage, setCur
                             <th className="w-10 px-2 text-center">#</th>
                             <th className="px-4 py-2 text-left">User</th>
                             <th><div className="p-2 text-left">Họ và tên</div></th>
+                             <th><div className="p-2 text-left">Khoa / Phòng ban</div></th>
                             <th>Trạng thái</th>
                         </tr>
                     </thead>
@@ -26,6 +27,7 @@ function UserTable({ data, setShowTheoDoiThuoc, setSltPhieu, currentPage, setCur
                                 <td>{currentPage === 1 ? index + 1 : (currentPage - 1) * 10 + index + 1}</td>
                                 <td className="py-2.5 px-4 text-left">{item.username}</td>
                                 <td><div className="p-2 text-left">{item.fullname}</div></td>
+                                <td><div className="px-2 text-left">{item.department}</div></td>
                                 <td>{item.status}</td>
                             </tr>
                         ))}
