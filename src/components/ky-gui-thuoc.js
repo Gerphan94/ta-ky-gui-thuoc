@@ -14,6 +14,8 @@ function KyGuiThuoc() {
     const [showTaoKyGui, setShowTaoKyGui] = useState(false);
     const [showTheodoiThuoc, setShowTheoDoiThuoc] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+
     const [sltPhieu, setSltPhieu] = useState({
         maphieu: '',
         mabn: "",
@@ -21,6 +23,9 @@ function KyGuiThuoc() {
         gioitinh: "",
         ngaysinh: "",
     });
+
+    const filterData = data.filter((item) => item.mabn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.hoten.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const handleXem = () => {
         console.log('sltTrangThai', sltTrangThai, typeof sltTrangThai)
@@ -35,7 +40,10 @@ function KyGuiThuoc() {
         }
     };
 
-
+    const handleSearch = (value) => {
+        setSearchQuery(value);
+        setCurrentPage(1);
+    }
 
     return (
         <>
@@ -78,6 +86,15 @@ function KyGuiThuoc() {
                                 Xem
                             </button>
                         </div>
+
+                        <button
+                            className="bg-blue-800 text-white px-6 py-2 rounded text-sm font-medium hover:bg-blue-900"
+                            onClick={() => setShowTaoKyGui(true)}
+                        >
+                            + Tạo ký gửi
+                        </button>
+                    </div>
+                    <div className="px-16">
                         <div className="relative w-96">
                             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                 <CiSearch className="h-4 w-4 text-gray-400" />
@@ -90,7 +107,7 @@ function KyGuiThuoc() {
                                 spellCheck="false"
                                 placeholder='Tìm PID, Họ tên'
                                 value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
+                                onChange={(e) => handleSearch(e.target.value)}
                                 className="w-full pl-10 pr-8 py-1 border border-gray-300 rounded-lg focus:ring-1 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors select-none"
                             />
                             {searchQuery && (
@@ -102,15 +119,15 @@ function KyGuiThuoc() {
                                 </button>
                             )}
                         </div>
-                        <button
-                            className="bg-blue-800 text-white px-6 py-2 rounded text-sm font-medium hover:bg-blue-900"
-                            onClick={() => setShowTaoKyGui(true)}
-                        >
-                            + Tạo ký gửi
-                        </button>
                     </div>
                     <div className="mt-4">
-                        <KyGuiTable data={data} setShowTheoDoiThuoc={setShowTheoDoiThuoc} setSltPhieu={setSltPhieu} />
+                        <KyGuiTable
+                            data={filterData}
+                            setShowTheoDoiThuoc={setShowTheoDoiThuoc}
+                            setSltPhieu={setSltPhieu}
+                            currentPage={currentPage}
+                            setCurrentPage={setCurrentPage}
+                        />
                     </div>
 
                 </div>

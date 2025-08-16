@@ -68,161 +68,162 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
     return (
         <>
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-40">
-                <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full max-h-[90vh] overflow-y-auto px-6 py-4">
+                <div className="bg-white rounded-lg shadow-lg max-w-7xl w-full max-h-[90vh] flex flex-col flex-grow overflow-y-auto px-6 py-4">
                     <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Theo dõi ký gửi - {sltPhieu.makygui}</h2>
+                    <div className="overflow-y-auto">
+                        <div className="grid grid-cols-4 gap-4 items-center mt-4">
+                            <div className="text-left">
+                                <label htmlFor="pid" className=" text-sm font-medium block">
+                                    PID
+                                </label>
+                                <input
+                                    id="pid"
+                                    value={sltPhieu.mabn}
+                                    disabled={true}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
+                                    autoComplete="off"
+                                    spellCheck="false"
+                                />
+                            </div>
+                            <div className="text-left">
+                                <label htmlFor="pid" className="block text-sm font-medium">
+                                    Họ và Tên
+                                </label>
+                                <input
+                                    id="hoten"
+                                    value={sltPhieu.hoten}
+                                    disabled={true}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
+                                />
+                            </div>
+                            <div className="text-left">
+                                <label htmlFor="phai" className="block text-sm font-medium">
+                                    Giới tính
+                                </label>
+                                <input
+                                    id="phai"
+                                    value={'Nam'}
+                                    disabled={true}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
+                                />
+                            </div>
+                            <div className="text-left">
+                                <label htmlFor="ngaysinh" className="block text-sm font-medium">
+                                    Ngày sinh
+                                </label>
+                                <input
+                                    id="ngaysinh"
+                                    value={'11/10/1997'}
+                                    disabled={true}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
+                                />
+                            </div>
 
-                    <div className="grid grid-cols-4 gap-4 items-center mt-4">
-                        <div className="text-left">
-                            <label htmlFor="pid" className=" text-sm font-medium block">
-                                PID
-                            </label>
-                            <input
-                                id="pid"
-                                value={sltPhieu.mabn}
-                                disabled={true}
-                                className="border rounded px-2 py-1 mt-1 w-full"
-                                autoComplete="off"
-                                spellCheck="false"
-                            />
-                        </div>
-                        <div className="text-left">
-                            <label htmlFor="pid" className="block text-sm font-medium">
-                                Họ và Tên
-                            </label>
-                            <input
-                                id="hoten"
-                                value={sltPhieu.hoten}
-                                disabled={true}
-                                className="border rounded px-2 py-1 mt-1 w-full"
-                            />
-                        </div>
-                        <div className="text-left">
-                            <label htmlFor="phai" className="block text-sm font-medium">
-                                Giới tính
-                            </label>
-                            <input
-                                id="phai"
-                                value={'Nam'}
-                                disabled={true}
-                                className="border rounded px-2 py-1 mt-1 w-full"
-                            />
-                        </div>
-                        <div className="text-left">
-                            <label htmlFor="ngaysinh" className="block text-sm font-medium">
-                                Ngày sinh
-                            </label>
-                            <input
-                                id="ngaysinh"
-                                value={'11/10/1997'}
-                                disabled={true}
-                                className="border rounded px-2 py-1 mt-1 w-full"
-                            />
                         </div>
 
-                    </div>
-
-                    <div className="flex gap-4 mt-4">
-                        <div className="text-left">
-                            <label className="block text-sm font-medium">Ngày y lệnh</label>
-                            <input
-                                type="date"
-                                value={ngayylenh ? new Date(ngayylenh).toISOString().split("T")[0] : ""}
-                                onChange={(e) => setNgayYLenh(e.target.value)}
-                                className="border rounded px-2 py-1 mt-1 w-40"
-                            />
+                        <div className="flex gap-4 mt-4">
+                            <div className="text-left">
+                                <label className="block text-sm font-medium">Ngày y lệnh</label>
+                                <input
+                                    type="date"
+                                    value={ngayylenh ? new Date(ngayylenh).toISOString().split("T")[0] : ""}
+                                    onChange={(e) => setNgayYLenh(e.target.value)}
+                                    className="border rounded px-2 py-1 mt-1 w-40"
+                                />
+                            </div>
+                            <div className="flex flex-col justify-end">
+                                <div></div>
+                                <button
+                                    className="border rounded px-2 py-1 mt-1 bg-blue-500 text-white hover:bg-blue-700"
+                                    onClick={() => setNgayYLenhList([...ngayylenhList, formatted(ngayylenh)])} // ✅ Correct date format: YYYY-MM-DD ngayylenh])}
+                                >
+                                    Thêm
+                                </button>
+                            </div>
                         </div>
-                        <div className="flex flex-col justify-end">
-                            <div></div>
-                            <button
-                                className="border rounded px-2 py-1 mt-1 bg-blue-500 text-white hover:bg-blue-700"
-                                onClick={() => setNgayYLenhList([...ngayylenhList, formatted(ngayylenh)])} // ✅ Correct date format: YYYY-MM-DD ngayylenh])}
-                            >
-                                Thêm
-                            </button>
-                        </div>
-                    </div>
-                    {/* Medicine Table */}
-                    <div className="border rounded-lg overflow-hidden mt-4 overflow-x-auto">
-                        <table className="w-full border-collapse">
-                            <thead>
-                                <tr className="bg-slate-700 text-white">
-                                    <th className="p-2 w-10">STT</th>
-                                    <th className="p-2 ">Thuốc</th>
-                                    <th className="p-2 w-20">ĐVT</th>
-                                    <th className="p-2 w-20">ĐVSD</th>
-                                    <th className="p-2 w-20 text-left">Lô SX</th>
-                                    <th className="p-2 w-24">Số lượng</th>
-                                    <th className="p-2 ">SL còn lại</th>
-                                    <th className="p-2 ">Ghi chú</th>
-                                    {ngayylenhList.map((ngayylenh, index) => (
-                                        <th key={index} className="p-2 w-20 text-center text-sm">{ngayylenh}</th>
+                        {/* Medicine Table */}
+                        <div className="border rounded-lg overflow-hidden mt-4 overflow-x-auto text-sm">
+                            <table className="w-full border-collapse">
+                                <thead>
+                                    <tr className="bg-slate-700 text-white">
+                                        <th className="p-2 w-10">STT</th>
+                                        <th className="p-2 ">Thuốc</th>
+                                        <th className="p-2 w-20">ĐVT</th>
+                                        <th className="p-2 w-20">ĐVSD</th>
+                                        <th className="p-2 w-20 text-left">Lô SX</th>
+                                        <th className="p-2 w-24">Số lượng</th>
+                                        <th className="p-2 ">SL còn lại</th>
+                                        <th className="p-2 ">Ghi chú</th>
+                                        {ngayylenhList.map((ngayylenh, index) => (
+                                            <th key={index} className="p-2 w-20 text-center text-sm">{ngayylenh}</th>
+                                        ))}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {medicines.map((medicine, index) => (
+                                        <tr key={medicine.stt} className="border-t">
+                                            <td className="p-2 text-center">{index + 1}</td>
+                                            <td className="p-2 font-medium text-left">
+                                                <div className="w-80">{medicine.thuoc}
+                                                </div></td>
+                                            <td className="p-2 text-center">{medicine.dvt}</td>
+                                            <td className="p-2 text-center">{medicine.dvsd}</td>
+                                            <td className="p-2 text-left">
+                                                <div className="w-28">{medicine.loSX}</div>
+                                            </td>
+                                            <td className="p-2 text-center">{medicine.soLuong}</td>
+                                            <td className="p-2 text-center">
+                                                <div className="w-24"> {medicine.slconlai}</div>
+                                            </td>
+                                            <td className="p-2 text-center">
+                                                <textarea
+                                                    spellCheck="false"
+                                                    autoComplete="off"
+                                                    className="w-48 border rounded p-1 outline-none" />
+                                            </td>
+                                            {ngayylenhList.map((ngayylenh, index) => (
+                                                <td key={index} className="p-2 text-center">
+                                                    <input
+                                                        type="number"
+                                                        className="border rounded px-2 py-1 w-20"
+                                                    />
+                                                </td>
+                                            ))}
+                                        </tr>
                                     ))}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {medicines.map((medicine, index) => (
-                                    <tr key={medicine.stt} className="border-t">
-                                        <td className="p-2 text-center">{index + 1}</td>
-                                        <td className="p-2 font-medium text-left">
-                                            <div className="w-80">{medicine.thuoc}
-                                            </div></td>
-                                        <td className="p-2 text-center">{medicine.dvt}</td>
-                                        <td className="p-2 text-center">{medicine.dvsd}</td>
-                                        <td className="p-2 text-left">
-                                            <div className="w-28">{medicine.loSX}</div>
-                                        </td>
-                                        <td className="p-2 text-center">{medicine.soLuong}</td>
-                                        <td className="p-2 text-center">
-                                            <div className="w-24"> {medicine.slconlai}</div>
-                                        </td>
-                                        <td className="p-2 text-center">
-                                            <textarea
-                                                spellCheck="false"
-                                                autoComplete="off"
-                                                className="w-48 border rounded p-1 outline-none" />
+                                    <tr className="border-t">
+                                        <td colSpan={6}></td>
+                                        <td colSpan={2} className="text-center">
+                                            <div className="text-sm">
+                                                Người thực hiện ký
+                                            </div>
                                         </td>
                                         {ngayylenhList.map((ngayylenh, index) => (
                                             <td key={index} className="p-2 text-center">
-                                                <input
-                                                    type="number"
-                                                    className="border rounded px-2 py-1 w-20"
-                                                />
+                                                <button>
+                                                    <PiSignature className="size-8 text-gray-500" />
+                                                </button>
                                             </td>
                                         ))}
                                     </tr>
-                                ))}
-                                <tr className="border-t">
-                                    <td colSpan={6}></td>
-                                    <td colSpan={2} className="text-center">
-                                        <div className="text-sm">
-                                            Người thực hiện ký
-                                        </div>
-                                    </td>
-                                    {ngayylenhList.map((ngayylenh, index) => (
-                                        <td key={index} className="p-2 text-center">
-                                            <button>
-                                                <PiSignature className="size-8 text-gray-500" />
-                                            </button>
+                                    <tr className="border-t">
+                                        <td colSpan={6}></td>
+                                        <td colSpan={2} className="text-center">
+                                            <div className="text-sm">
+                                                Người bệnh ký
+                                            </div>
                                         </td>
-                                    ))}
-                                </tr>
-                                <tr className="border-t">
-                                    <td colSpan={6}></td>
-                                    <td colSpan={2} className="text-center">
-                                        <div className="text-sm">
-                                            Người bệnh ký
-                                        </div>
-                                    </td>
-                                    {ngayylenhList.map((ngayylenh, index) => (
-                                        <td key={index} className="p-2 text-center ">
-                                            <button>
-                                                <PiSignature className="size-8 text-gray-500" />
-                                            </button>
-                                        </td>
-                                    ))}
-                                </tr>
-                            </tbody>
-                        </table>
+                                        {ngayylenhList.map((ngayylenh, index) => (
+                                            <td key={index} className="p-2 text-center ">
+                                                <button>
+                                                    <PiSignature className="size-8 text-gray-500" />
+                                                </button>
+                                            </td>
+                                        ))}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
 
                     {/* Actions */}

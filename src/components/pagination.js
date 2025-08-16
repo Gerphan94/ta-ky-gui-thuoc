@@ -1,10 +1,7 @@
-import React, { useState, useEffect } from "react";
 import { BiChevronsLeft, BiChevronsRight } from "react-icons/bi";
-import { useAppContext } from "../Store/AppContext";
 
-function Pagination({ currentPage, setCurrentPage, totalPage, itemsPerPage = 20, setItemsPerPage = null }) {
+function Pagination({ currentPage, setCurrentPage, totalPage }) {
 
-    const { isMobile } = useAppContext();
     const range = (start, end) => {
         const length = end - start + 1;
         return Array.from({ length }, (_, i) => start + i);
@@ -12,9 +9,7 @@ function Pagination({ currentPage, setCurrentPage, totalPage, itemsPerPage = 20,
 
 
     const getVisiblePages = () => {
-        if (isMobile) {
-            return mobileView();
-        }
+       
         return normalVoew();;
     };
 
