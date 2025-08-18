@@ -20,29 +20,12 @@ const availableMedicines = [
 ]
 
 const MedList = [
-    {
-        stt: 1,
-        id: 1,
-        medcode: 'ent001',
-        thuoc: "ENTEROGERMINA 4 TỶ BÀO TỬ 5ml",
-        dvt: "Viên",
-        dvsd: "Viên",
-        loSX: "EN2507A",
-        soLuong: 10,
-    },
-    {
-        stt: 2,
-        id: 2,
-        medcode: 'par001',
-        thuoc: "Paracetamol 500mg",
-        dvt: "Viên",
-        dvsd: "Viên",
-        loSX: "PA2406B",
-        soLuong: 3,
-    },
+    { stt: 1, id: 4, medcode: 'acar001', thuoc: "Acarbose Friulchem 100mg", dvt: "Viên", dvsd: "Viên", sl: 10, losx: "AC2505D" },
+    { stt: 2, id: 5, medcode: 'coz001', thuoc: "Cozaar 100mg (Losartan)", dvt: "Viên", dvsd: "Viên", sl: 3, losx: "CZ2504E" },
+    { stt: 3, id: 6, medcode: 'des001', thuoc: "Desbebe 0,5mg/ml; chai 60ml", dvt: "Chai", dvsd: "ml", sl: 1, losx: "DB2506F" }
 ]
 
-export default function CreateRequestModal({ setShow }) {
+export default function EditRequestModal({ setShow, sltPhieu }) {
 
     const [patientPID, setPatientPID] = useState("");
     const [sltMedicineId, setSltMedicineId] = useState(0);
@@ -53,8 +36,7 @@ export default function CreateRequestModal({ setShow }) {
     const [medicineQuantity, setMedicineQuantity] = useState("");
     const [batchNumber, setBatchNumber] = useState("");
     const [addedMedicines, setAddedMedicines] = useState(MedList);
-    const [note, setNote] = useState("");
-    const [slInput, setSlInput] = useState(0);
+    const [note, setNote] = useState("Test Ghi chú");
     const [isFreeText, setIsFreeText] = useState(false);
 
     const handleChangeMedicineQuantity = (e) => {
@@ -88,8 +70,8 @@ export default function CreateRequestModal({ setShow }) {
                 thuoc: medicineName,
                 dvt: medicineUnit,
                 dvsd: medicineUsedUnit,
-                loSX: batchNumber,
-                soLuong: Number.parseInt(medicineQuantity),
+                losx: batchNumber,
+                sl: Number.parseInt(medicineQuantity),
             };
             console.log(newMedicine)
 
@@ -121,7 +103,7 @@ export default function CreateRequestModal({ setShow }) {
         <>
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full max-h-[90vh] overflow-y-hidden px-6 py-4 flex flex-col flex-grow">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Tạo Ký gửi thuốc</h2>
+                    <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Ký gửi thuốc - {sltPhieu.makygui}</h2>
                     <div className="overflow-y-auto h-full">
                         <div className="grid grid-cols-4 gap-4 items-center mt-4">
                             <div className="text-left">
@@ -130,12 +112,10 @@ export default function CreateRequestModal({ setShow }) {
                                 </label>
                                 <input
                                     id="pid"
-                                    value={patientPID}
-                                    onChange={(e) => setPatientPID(e.target.value)}
-                                    placeholder="Nhập PID"
-                                    className="border rounded px-2 py-1 mt-1 w-full bg-white"
-                                    autoComplete="off"
-                                    spellCheck="false"
+                                    disabled={true}
+                                    value={sltPhieu.mabn}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
+
                                 />
                             </div>
                             <div className="text-left">
@@ -178,6 +158,7 @@ export default function CreateRequestModal({ setShow }) {
                             <div className="text-left w-full">
                                 <label className=" text-sm font-medium block">Đợt vào viện:</label>
                                 <select
+                                    disabled={true}
                                     className="border rounded mt-1 px-2 py-1 w-full"
                                 >
                                     <option value="" hidden disabled>
@@ -298,8 +279,8 @@ export default function CreateRequestModal({ setShow }) {
                                             <td className="p-2 font-medium text-left">{medicine.thuoc}</td>
                                             <td className="p-2 text-center">{medicine.dvt}</td>
                                             <td className="p-2 text-center">{medicine.dvsd}</td>
-                                            <td className="p-2 text-left">{medicine.loSX}</td>
-                                            <td className="p-2 text-center">{medicine.soLuong}</td>
+                                            <td className="p-2 text-left">{medicine.losx}</td>
+                                            <td className="p-2 text-center">{medicine.sl}</td>
                                             <td className="p-2 text-center">
                                                 <button
                                                     onClick={() => removeMedicine(medicine.stt)}
@@ -327,20 +308,21 @@ export default function CreateRequestModal({ setShow }) {
                     </div>
 
                     {/* Actions */}
-                    <div className="flex justify-center gap-4 pt-4">
-                        {/* <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded">
-                            Xác nhận
-                        </button> */}
-
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
-                            Lưu
+                    <div className="flex justify-between gap-4 pt-4">
+                        <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-1.5 rounded">
+                            Hủy phiếu
                         </button>
-                        <button
-                            onClick={() => setShow(false)}
-                            className="border border-red-600 text-red-600 hover:bg-red-50 px-8 py-1.5 rounded"
-                        >
-                            Đóng
-                        </button>
+                        <div className="flex gap-3 items-center">
+                            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
+                                Lưu
+                            </button>
+                            <button
+                                onClick={() => setShow(false)}
+                                className="border border-red-600 text-red-600 hover:bg-red-50 px-8 py-1.5 rounded"
+                            >
+                                Đóng
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

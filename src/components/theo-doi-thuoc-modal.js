@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { PiSignature } from "react-icons/pi";
+import { FcSignature } from "react-icons/fc";
+
 import ChuyenPhieuModal from "./chuyen-phieu-modal";
 import HoanTatPhieuModal from "./hoan-tat-phieu-modal";
 
@@ -15,6 +17,7 @@ const MedList = [
         dvsd: "Viên",
         loSX: "Lo 123",
         soLuong: 10,
+        slsd: [1, 1]
     },
     {
         stt: 2,
@@ -23,6 +26,7 @@ const MedList = [
         dvsd: "Viên",
         loSX: "Lo 123",
         soLuong: 3,
+        slsd: [1]
     },
     {
         stt: 3,
@@ -31,6 +35,7 @@ const MedList = [
         dvsd: "Viên",
         loSX: "Lo 123",
         soLuong: 5,
+        slsd: [1]
     },
 
 ]
@@ -40,6 +45,15 @@ const formatted = (day) => {
 
     return day.split("-").reverse().join("/");
 };
+
+
+const slconlai = (sl, slsd) => {
+    let sum = 0;
+    for (let i = 0; i < slsd.length; i++) {
+        sum += slsd[i];
+    }
+    return sl - sum;
+}   
 
 
 
@@ -59,7 +73,11 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
         setmedicines((prev) => prev.filter((med) => med.stt !== stt));
     };
 
-    const [ngayylenhList, setNgayYLenhList] = useState(["12/08/2025", "13/08/2025", "14/08/2025"]);
+    const [ngayylenhList, setNgayYLenhList] = useState([
+        { ngayylenh: "12/08/2025", daky: true },
+        { ngayylenh: "13/08/2025", daky: false },
+        { ngayylenh: "14/08/2025", daky: false }
+    ]);
 
 
 
@@ -155,7 +173,7 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                         <th className="p-2 ">SL còn lại</th>
                                         <th className="p-2 ">Ghi chú</th>
                                         {ngayylenhList.map((ngayylenh, index) => (
-                                            <th key={index} className="p-2 w-20 text-center text-sm">{ngayylenh}</th>
+                                            <th key={index} className="p-2 w-20 text-center text-sm">{ngayylenh.ngayylenh}</th>
                                         ))}
                                     </tr>
                                 </thead>
@@ -173,7 +191,7 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                             </td>
                                             <td className="p-2 text-center">{medicine.soLuong}</td>
                                             <td className="p-2 text-center">
-                                                <div className="w-24"> {medicine.slconlai}</div>
+                                                <div className="w-24"> {slconlai(medicine.soLuong, medicine.slsd)}</div>
                                             </td>
                                             <td className="p-2 text-center">
                                                 <textarea
@@ -184,7 +202,9 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                             {ngayylenhList.map((ngayylenh, index) => (
                                                 <td key={index} className="p-2 text-center">
                                                     <input
+                                                        disabled={ngayylenh.daky}
                                                         type="number"
+                                                        value={medicine.slsd[index]}
                                                         className="border rounded px-2 py-1 w-20"
                                                     />
                                                 </td>
@@ -200,8 +220,11 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                         </td>
                                         {ngayylenhList.map((ngayylenh, index) => (
                                             <td key={index} className="p-2 text-center">
+
                                                 <button>
-                                                    <PiSignature className="size-8 text-gray-500" />
+                                                    {ngayylenh.daky ? <FcSignature className="size-8 text-gray-500" /> :
+                                                        <PiSignature className="size-8 text-gray-500" />
+                                                    }
                                                 </button>
                                             </td>
                                         ))}
@@ -216,7 +239,9 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                         {ngayylenhList.map((ngayylenh, index) => (
                                             <td key={index} className="p-2 text-center ">
                                                 <button>
-                                                    <PiSignature className="size-8 text-gray-500" />
+                                                    {ngayylenh.daky ? <FcSignature className="size-8 text-gray-500" /> :
+                                                        <PiSignature className="size-8 text-gray-500" />
+                                                    }
                                                 </button>
                                             </td>
                                         ))}

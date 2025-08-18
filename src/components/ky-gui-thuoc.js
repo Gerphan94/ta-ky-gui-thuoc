@@ -1,20 +1,26 @@
 import { useEffect, useState } from "react";
-import { kyGuiMoi, kyGuiThucHien, kyGuiHoantat } from "../data/ky-gui-data"
+import { kyGuiMoi, kyGuiThucHien, kyGuiHoantat, kyGuiChoXacNhan } from "../data/ky-gui-data"
 import KyGuiTable from "./ky-gui-thuoc-table";
 import CreateRequestModal from "./tao-ky-gui-modal";
+import EditRequestModal from "./sua-ky-gui-modal";
 import TheoDoiThuocModal from "./theo-doi-thuoc-modal";
+import XacNhanModal from "./xac-nhan-modal";
 
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+
+
 function KyGuiThuoc() {
 
     const [sltTrangThai, setSltTrangThai] = useState(0);
 
     const [data, setData] = useState([]);
     const [showTaoKyGui, setShowTaoKyGui] = useState(false);
+    const [showSuaKyGui, setShowSuaKyGui] = useState(false);
     const [showTheodoiThuoc, setShowTheoDoiThuoc] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
+    const [showXacNhan, setShowXacNhan] = useState(false);
 
     const [sltPhieu, setSltPhieu] = useState({
         maphieu: '',
@@ -28,15 +34,18 @@ function KyGuiThuoc() {
         item.hoten.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const handleXem = () => {
+        setCurrentPage(1);
         console.log('sltTrangThai', sltTrangThai, typeof sltTrangThai)
         if (sltTrangThai === 'new') {
             setData(kyGuiMoi);
         } else if (sltTrangThai === 'doing') {
             setData(kyGuiThucHien);
+        } else if (sltTrangThai === 'w8') {
+            setData(kyGuiChoXacNhan);
         } else if (sltTrangThai === 'complete') {
             setData(kyGuiHoantat);
         } else {
-            setData([...kyGuiMoi, ...kyGuiThucHien, ...kyGuiHoantat]);
+            setData([...kyGuiMoi, ...kyGuiThucHien, ...kyGuiChoXacNhan, ...kyGuiHoantat]);
         }
     };
 
@@ -75,6 +84,7 @@ function KyGuiThuoc() {
                                 >
                                     <option value={'all'}>Tất cả</option>
                                     <option value={'new'}>Mới</option>
+                                    <option value={'w8'}>Chờ xác nhận</option>
                                     <option value={'doing'}>Đang thực hiện</option>
                                     <option value={'complete'}>Hoàn tất</option>
                                 </select>
@@ -125,6 +135,8 @@ function KyGuiThuoc() {
                             data={filterData}
                             setShowTheoDoiThuoc={setShowTheoDoiThuoc}
                             setSltPhieu={setSltPhieu}
+                            setShowXacNhan={setShowXacNhan}
+                            setShowSuaKyGui={setShowSuaKyGui}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
                         />
@@ -134,8 +146,11 @@ function KyGuiThuoc() {
 
 
             </div>
-            <CreateRequestModal show={showTaoKyGui} setShow={setShowTaoKyGui} />
+            {showTaoKyGui &&  <CreateRequestModal setShow={setShowTaoKyGui} /> }
+            {showSuaKyGui &&  <EditRequestModal sltPhieu={sltPhieu} setShow={setShowSuaKyGui} /> }
+           
             <TheoDoiThuocModal sltPhieu={sltPhieu} show={showTheodoiThuoc} setShow={setShowTheoDoiThuoc} />
+            <XacNhanModal show={showXacNhan} setShow={setShowXacNhan} />
 
         </>
     )

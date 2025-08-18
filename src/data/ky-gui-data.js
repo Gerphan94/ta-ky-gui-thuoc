@@ -43,15 +43,18 @@ export const kyGuiThucHien = [
   { makygui: "KG0035", ngaytao: "14/07/2025 19:20", mabn: "2520001035", hoten: "Nguyễn Văn Tùng", gioitinh: "Nam", ngaysinh: "04/11/1983", trangthai: "doing" },
 ]
 
+export const kyGuiChoXacNhan = [
+  { makygui: "KG0036", ngaytao: "14/07/2025 19:40", mabn: "2420001036", hoten: "Phan Thị Hòa", gioitinh: "Nữ", ngaysinh: "21/08/1986", trangthai: "w8" },
+  { makygui: "KG0037", ngaytao: "14/07/2025 20:00", mabn: "2520001037", hoten: "Nguyễn Văn Hiếu", gioitinh: "Nam", ngaysinh: "25/03/1992", trangthai: "w8" },
+  { makygui: "KG0038", ngaytao: "14/07/2025 20:20", mabn: "2420001038", hoten: "Trần Thị Lệ", gioitinh: "Nữ", ngaysinh: "03/09/1989", trangthai: "w8" },
+  { makygui: "KG0039", ngaytao: "14/07/2025 20:40", mabn: "2520001039", hoten: "Phạm Văn Khoa", gioitinh: "Nam", ngaysinh: "27/07/1984", trangthai: "w8" },
+  { makygui: "KG0040", ngaytao: "14/07/2025 21:00", mabn: "2420001040", hoten: "Vũ Thị Hạnh", gioitinh: "Nữ", ngaysinh: "08/06/1991", trangthai: "w8" },
+  { makygui: "KG0041", ngaytao: "14/07/2025 21:20", mabn: "2520001041", hoten: "Nguyễn Văn Thành", gioitinh: "Nam", ngaysinh: "19/04/1978", trangthai: "w8" },
+  { makygui: "KG0042", ngaytao: "14/07/2025 21:40", mabn: "2420001042", hoten: "Hoàng Thị Nhung", gioitinh: "Nữ", ngaysinh: "30/12/1987", trangthai: "w8" },
+  { makygui: "KG0043", ngaytao: "14/07/2025 22:00", mabn: "2520001043", hoten: "Nguyễn Văn Phúc", gioitinh: "Nam", ngaysinh: "17/10/1980", trangthai: "w8" },
+]
+
 export const kyGuiHoantat = [
-  { makygui: "KG0036", ngaytao: "14/07/2025 19:40", mabn: "2420001036", hoten: "Phan Thị Hòa", gioitinh: "Nữ", ngaysinh: "21/08/1986", trangthai: "complete" },
-  { makygui: "KG0037", ngaytao: "14/07/2025 20:00", mabn: "2520001037", hoten: "Nguyễn Văn Hiếu", gioitinh: "Nam", ngaysinh: "25/03/1992", trangthai: "complete" },
-  { makygui: "KG0038", ngaytao: "14/07/2025 20:20", mabn: "2420001038", hoten: "Trần Thị Lệ", gioitinh: "Nữ", ngaysinh: "03/09/1989", trangthai: "complete" },
-  { makygui: "KG0039", ngaytao: "14/07/2025 20:40", mabn: "2520001039", hoten: "Phạm Văn Khoa", gioitinh: "Nam", ngaysinh: "27/07/1984", trangthai: "complete" },
-  { makygui: "KG0040", ngaytao: "14/07/2025 21:00", mabn: "2420001040", hoten: "Vũ Thị Hạnh", gioitinh: "Nữ", ngaysinh: "08/06/1991", trangthai: "complete" },
-  { makygui: "KG0041", ngaytao: "14/07/2025 21:20", mabn: "2520001041", hoten: "Nguyễn Văn Thành", gioitinh: "Nam", ngaysinh: "19/04/1978", trangthai: "complete" },
-  { makygui: "KG0042", ngaytao: "14/07/2025 21:40", mabn: "2420001042", hoten: "Hoàng Thị Nhung", gioitinh: "Nữ", ngaysinh: "30/12/1987", trangthai: "complete" },
-  { makygui: "KG0043", ngaytao: "14/07/2025 22:00", mabn: "2520001043", hoten: "Nguyễn Văn Phúc", gioitinh: "Nam", ngaysinh: "17/10/1980", trangthai: "complete" },
   { makygui: "KG0044", ngaytao: "14/07/2025 22:20", mabn: "2420001044", hoten: "Trần Thị Nga", gioitinh: "Nữ", ngaysinh: "09/02/1993", trangthai: "complete" },
   { makygui: "KG0045", ngaytao: "14/07/2025 22:40", mabn: "2520001045", hoten: "Phạm Văn An", gioitinh: "Nam", ngaysinh: "14/11/1982", trangthai: "complete" },
   { makygui: "KG0046", ngaytao: "14/07/2025 23:00", mabn: "2420001046", hoten: "Nguyễn Thị Mai", gioitinh: "Nữ", ngaysinh: "20/07/1988", trangthai: "complete" },

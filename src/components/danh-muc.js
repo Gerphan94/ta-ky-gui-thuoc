@@ -9,6 +9,7 @@ function DanhMuc() {
     const [currentPage, setCurrentPage] = useState(1);
     const [showAdd, setShowAdd] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const [sltMenu, setSltMenu] = useState('pb');
 
     const handleSearch = (value) => {
         setSearchQuery(value);
@@ -20,12 +21,15 @@ function DanhMuc() {
         item.department.toLowerCase().includes(searchQuery.toLowerCase()));
 
 
-
-
-
     return (
         <>
-            <div className="w-1/2 mx-auto mt-10 bg-white rounded shadow p-6">
+            <div className="w-1/2 mx-auto mt-10 bg-white rounded shadow px-6">
+                <div className="w-full flex items-start">
+                    <div className="flex items-center py-4">
+                        <button className={`p-2 border-b-blue-500  hover:border-b ${sltMenu === 'pb' && 'border-b'} ` } onClick={() => setSltMenu('pb')}>Phòng ban</button>
+                         <button className={`p-2 border-b-blue-500  hover:border-b ${sltMenu === 'tk' && 'border-b'} `} onClick={() => setSltMenu('tk')}>Tài khoản</button>
+                    </div>
+                </div>
 
                 <div className="flex justify-between">
                     <div className="relative w-96">
@@ -59,9 +63,8 @@ function DanhMuc() {
 
                     >Thêm</button>
                 </div>
-                <div className="mt-2">
+                <div className="py-4">
                     <UserTable data={filterData} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-
                 </div>
 
             </div>
