@@ -52,6 +52,7 @@ function KyGuiTable({
                             <th>Giới tính</th>
                             <th>Ngày Sinh</th>
                             <th>Trạng thái</th>
+                            <th className="px-2 text-left">Khoa</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -71,6 +72,9 @@ function KyGuiTable({
 
                                     {item.trangthai === 'doing' && <span className="text-blue-500 font-semibold border rounded py-0.5 px-2">Sử dụng</span>}
                                     {item.trangthai === 'complete' && <span className="text-green-500 font-semibold border rounded py-0.5 px-2">Hoàn tất</span>}
+                                </td>
+                                <td className="px-2 text-left">
+                                    {item.khoa}
                                 </td>
                                 <td>
                                     <div className="text-sm select-none">

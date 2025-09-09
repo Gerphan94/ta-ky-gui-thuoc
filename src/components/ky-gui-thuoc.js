@@ -8,6 +8,8 @@ import XacNhanModal from "./xac-nhan-modal";
 
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
+import { IoMdPerson } from "react-icons/io";
+import { use } from "react";
 
 
 function KyGuiThuoc() {
@@ -21,6 +23,7 @@ function KyGuiThuoc() {
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [showXacNhan, setShowXacNhan] = useState(false);
+    const [isAll, setIsAll] = useState(false);
 
     const [sltPhieu, setSltPhieu] = useState({
         maphieu: '',
@@ -30,8 +33,23 @@ function KyGuiThuoc() {
         ngaysinh: "",
     });
 
-    const filterData = data.filter((item) => item.mabn.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        item.hoten.toLowerCase().includes(searchQuery.toLowerCase()));
+    const login = {
+        username: 'quanvm',
+        department: 'Khoa khám bệnh',
+    }
+
+    const filterData = data.filter(item => {
+        const matchSearch =  item.mabn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            item.hoten.toLowerCase().includes(searchQuery.toLowerCase());
+
+        // matchAll if isAll === true get data all else get data filter by khoa = login.department
+        const matchAll = isAll ? true : login.department === item.khoa;
+
+
+        return matchSearch && matchAll;
+    });
+
+   
 
     const handleXem = () => {
         setCurrentPage(1);
@@ -56,8 +74,16 @@ function KyGuiThuoc() {
 
     return (
         <>
-            <div className="flex-1 p-6 w-full">
-                <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <div className="flex-1 w-full">
+                <div className="flex gap-4 py-2">
+                    <div className="w-full font-bold text-xl">TAH NỘI TRÚ - BỆNH VIỆN ĐA KHOA TÂM ANH TP. HỒ CHÍ MINH</div>
+                    <div className="w-32 text-lg flex items-center gap-2">
+                        <IoMdPerson />
+                        <div>{login.username}</div>
+                    </div>
+                </div>
+
+                <div className="bg-white p-4 rounded-lg shadow-sm mb-6 ml-4 mr-4">
                     <div className="flex justify-between items-center py-2">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
@@ -95,6 +121,15 @@ function KyGuiThuoc() {
                             >
                                 Xem
                             </button>
+                            <label className="select-none cursor-pointer">
+                                <input
+                                    type="checkbox"
+                                    className="mr-2"
+                                    checked={isAll}
+                                    onChange={(e) => setIsAll(e.target.checked)}
+                                />
+                                <span>Tất cả</span>
+                            </label>
                         </div>
 
                         <button
@@ -146,9 +181,9 @@ function KyGuiThuoc() {
 
 
             </div>
-            {showTaoKyGui &&  <CreateRequestModal setShow={setShowTaoKyGui} /> }
-            {showSuaKyGui &&  <EditRequestModal sltPhieu={sltPhieu} setShow={setShowSuaKyGui} /> }
-           
+            {showTaoKyGui && <CreateRequestModal setShow={setShowTaoKyGui} />}
+            {showSuaKyGui && <EditRequestModal sltPhieu={sltPhieu} setShow={setShowSuaKyGui} />}
+
             <TheoDoiThuocModal sltPhieu={sltPhieu} show={showTheodoiThuoc} setShow={setShowTheoDoiThuoc} />
             <XacNhanModal show={showXacNhan} setShow={setShowXacNhan} />
 
