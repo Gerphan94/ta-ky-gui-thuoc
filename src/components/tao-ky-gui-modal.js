@@ -42,7 +42,7 @@ const MedList = [
     },
 ]
 
-export default function CreateRequestModal({ setShow }) {
+export default function CreateRequestModal({ setShow, login }) {
 
     const [patientPID, setPatientPID] = useState("");
     const [sltMedicineId, setSltMedicineId] = useState(0);
@@ -323,6 +323,10 @@ export default function CreateRequestModal({ setShow }) {
                                 autoComplete="false"
                                 className="border rounded p-2 w-full mt-1"
                             />
+                        </div>
+                        <div className="text-left ">
+                            <label className="block font-medium">Khoa/ Phòng ký gửi:</label>
+                            <input className="w-96 border rounded px-2 py-1 mt-1 " disabled={true} value={login.department} />
                         </div>
                     </div>
 

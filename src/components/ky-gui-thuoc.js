@@ -39,7 +39,7 @@ function KyGuiThuoc() {
     }
 
     const filterData = data.filter(item => {
-        const matchSearch =  item.mabn.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        const matchSearch = item.mabn.toLowerCase().includes(searchQuery.toLowerCase()) ||
             item.hoten.toLowerCase().includes(searchQuery.toLowerCase());
 
         // matchAll if isAll === true get data all else get data filter by khoa = login.department
@@ -49,7 +49,7 @@ function KyGuiThuoc() {
         return matchSearch && matchAll;
     });
 
-   
+
 
     const handleXem = () => {
         setCurrentPage(1);
@@ -58,12 +58,12 @@ function KyGuiThuoc() {
             setData(kyGuiMoi);
         } else if (sltTrangThai === 'doing') {
             setData(kyGuiThucHien);
-        } else if (sltTrangThai === 'w8') {
-            setData(kyGuiChoXacNhan);
+            // } else if (sltTrangThai === 'w8') {
+            //     setData(kyGuiChoXacNhan);
         } else if (sltTrangThai === 'complete') {
             setData(kyGuiHoantat);
         } else {
-            setData([...kyGuiMoi, ...kyGuiThucHien, ...kyGuiChoXacNhan, ...kyGuiHoantat]);
+            setData([...kyGuiMoi, ...kyGuiThucHien, ...kyGuiHoantat]);
         }
     };
 
@@ -84,7 +84,7 @@ function KyGuiThuoc() {
                 </div>
 
                 <div className="bg-white p-4 rounded-lg shadow-sm mb-6 ml-4 mr-4">
-                    <div className="flex justify-between items-center py-2">
+                    <div className="flex justify-between items-center px-4 py-2">
                         <div className="flex items-center gap-4">
                             <div className="flex items-center gap-2">
                                 <label className="text-sm font-medium">Từ ngày:</label>
@@ -110,7 +110,7 @@ function KyGuiThuoc() {
                                 >
                                     <option value={'all'}>Tất cả</option>
                                     <option value={'new'}>Mới</option>
-                                    <option value={'w8'}>Chờ xác nhận</option>
+                                    {/* <option value={'w8'}>Chờ xác nhận</option> */}
                                     <option value={'doing'}>Đang thực hiện</option>
                                     <option value={'complete'}>Hoàn tất</option>
                                 </select>
@@ -121,7 +121,7 @@ function KyGuiThuoc() {
                             >
                                 Xem
                             </button>
-                            <label className="select-none cursor-pointer">
+                            {/* <label className="select-none cursor-pointer">
                                 <input
                                     type="checkbox"
                                     className="mr-2"
@@ -129,15 +129,22 @@ function KyGuiThuoc() {
                                     onChange={(e) => setIsAll(e.target.checked)}
                                 />
                                 <span>Tất cả</span>
-                            </label>
+                            </label> */}
                         </div>
+                        <div className="flex gap-4">
+                            <input
+                                disabled={true}
+                                className="w-60 border border-gray-300 rounded px-3 py-1 text-sm"
+                                value={login.department} />
 
-                        <button
-                            className="bg-blue-800 text-white px-6 py-2 rounded text-sm font-medium hover:bg-blue-900"
-                            onClick={() => setShowTaoKyGui(true)}
-                        >
-                            + Tạo ký gửi
-                        </button>
+
+                            <button
+                                className="bg-blue-800 text-white px-6 py-2 rounded text-sm font-medium hover:bg-blue-900"
+                                onClick={() => setShowTaoKyGui(true)}
+                            >
+                                + Tạo ký gửi
+                            </button>
+                        </div>
                     </div>
                     <div className="px-16">
                         <div className="relative w-96">
@@ -165,7 +172,7 @@ function KyGuiThuoc() {
                             )}
                         </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="mt-4 px-4">
                         <KyGuiTable
                             data={filterData}
                             setShowTheoDoiThuoc={setShowTheoDoiThuoc}
@@ -181,7 +188,7 @@ function KyGuiThuoc() {
 
 
             </div>
-            {showTaoKyGui && <CreateRequestModal setShow={setShowTaoKyGui} />}
+            {showTaoKyGui && <CreateRequestModal setShow={setShowTaoKyGui} login={login} />}
             {showSuaKyGui && <EditRequestModal sltPhieu={sltPhieu} setShow={setShowSuaKyGui} />}
 
             <TheoDoiThuocModal sltPhieu={sltPhieu} show={showTheodoiThuoc} setShow={setShowTheoDoiThuoc} />

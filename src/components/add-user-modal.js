@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 
-function AddUserModal({ show, setShow, users }) {
+function AddUserModal({ show, setShow, users, type='Thêm' }) {
     const khoas = [
         { id: 'nt', name: "Nhà thuốc" },
         { id: 'kc', name: "Khoa khám bệnh" },
@@ -18,32 +18,35 @@ function AddUserModal({ show, setShow, users }) {
         <>
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
                 <div className="bg-white rounded-lg shadow-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto px-6 py-4">
-                    <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Thêm User</h2>
+                    <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">{type} User</h2>
 
                     <div className=" py-2">
                         <div className="grid grid-cols-2 gap-3 text-left w-1/2">
                             <label className="font-semibold">User name:</label>
-                            <select className="px-2 py-1 border w-96">
+                            <select className="px-2 py-1 border w-96" disabled={type ==='Sửa'}>
                                 <option value="" hidden selected>-- Chọn User --</option>
                                 {users.map((user) => (
                                     <option key={user.id} value={user.id}>{user.username} - {user.fullname}</option>
                                 ))}
                             </select>
                             <label className="font-semibold">Khoa / Phòng ban:</label>
-                            <select className="px-2 py-1 border w-96"
-                               
-                            >
+                            <select className="px-2 py-1 border w-96">
                                 <option value="" hidden selected>-- Chọn bộ phân --</option>
                                 {khoas.map((khoa) => (
                                     <option key={khoa.id} value={khoa.id}>{khoa.name}</option>
                                 ))}
                             </select>
+                            <label className="font-semibold">Trạng thái:</label>
+                            <select className="px-2 py-1 border w-96">
+                                <option value="active" selected>Hoạt động</option>
+                                <option value="unactive">Ngừng hoạt động</option>
+                            </select>
                         </div>
 
                     </div>
-                    <div className="flex justify-center gap-4 pt-4 text-sm">
+                    <div className="flex justify-center gap-4 pt-4 text-sm select-none">
                         <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
-                            Xác nhận
+                            Lưu
                         </button>
                         <button
                             onClick={() => setShow(false)}

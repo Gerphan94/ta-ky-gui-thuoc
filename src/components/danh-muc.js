@@ -8,6 +8,7 @@ function DanhMuc() {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [showAdd, setShowAdd] = useState(false);
+    const [showType, setShowType] = useState('Thêm');
     const [searchQuery, setSearchQuery] = useState('');
     const [sltMenu, setSltMenu] = useState('tk');
 
@@ -15,6 +16,12 @@ function DanhMuc() {
         setSearchQuery(value);
         setCurrentPage(1);
     };
+
+    const handleClickAdd = (type) => {
+        setShowAdd(true);
+        setShowType(type);
+        
+    }
 
     const filterData = users.filter((item) => item.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.fullname.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -58,16 +65,21 @@ function DanhMuc() {
 
                     <button
                         className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded"
-                        onClick={() => setShowAdd(true)}
+                        onClick={() => handleClickAdd("Thêm")}
 
                     >Thêm</button>
                 </div>
                 <div className="py-4">
-                    <UserTable data={filterData} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                    <UserTable 
+                    data={filterData} 
+                    currentPage={currentPage} 
+                    setCurrentPage={setCurrentPage}
+                    handleClickAdd={handleClickAdd}
+                     />
                 </div>
 
             </div>
-            <AddUserModal show={showAdd} setShow={setShowAdd} users={users} />
+            <AddUserModal show={showAdd} setShow={setShowAdd} users={users} type={showType} />
         </>
     );
 }

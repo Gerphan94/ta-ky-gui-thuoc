@@ -70,7 +70,7 @@ function KyGuiTable({
                                     {item.trangthai === 'new' && <span className="text-gray-500 font-semibold border rounded py-0.5 px-2">Mới</span>}
                                     {item.trangthai === 'w8' && <span className="text-orange-500 font-semibold border rounded py-0.5 px-2">Chờ xác nhận</span>}
 
-                                    {item.trangthai === 'doing' && <span className="text-blue-500 font-semibold border rounded py-0.5 px-2">Sử dụng</span>}
+                                    {item.trangthai === 'doing' && <span className="text-blue-500 font-semibold border rounded py-0.5 px-2">Đang thực hiện</span>}
                                     {item.trangthai === 'complete' && <span className="text-green-500 font-semibold border rounded py-0.5 px-2">Hoàn tất</span>}
                                 </td>
                                 <td className="px-2 text-left">
@@ -84,10 +84,10 @@ function KyGuiTable({
                                             >Chi tiết</button>
                                         }
 
-                                        {item.trangthai === 'new' &&
+                                        {/* {item.trangthai === 'new' &&
                                             <button className="bg-blue-500 text-white py-1 px-2 rounded ml-2"
                                                 onClick={() => handleClickSua(item)}
-                                            >Sửa</button>}
+                                            >Sửa</button>} */}
                                         {item.trangthai === 'w8' &&
                                             <button
                                                 className="bg-blue-500 text-white py-1 px-2 rounded ml-2"

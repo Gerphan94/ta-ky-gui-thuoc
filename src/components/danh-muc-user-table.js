@@ -1,6 +1,7 @@
 import Pagination from "./pagination";
+import { FaEdit } from "react-icons/fa";
 
-function UserTable({ data, setShowTheoDoiThuoc, setSltPhieu, currentPage, setCurrentPage }) {
+function UserTable({ data, setShowTheoDoiThuoc, setSltPhieu, currentPage, setCurrentPage, handleClickAdd }) {
 
     const itemsPerPage = 10;
     const totalPage = Math.ceil(data.length / itemsPerPage);
@@ -19,6 +20,7 @@ function UserTable({ data, setShowTheoDoiThuoc, setSltPhieu, currentPage, setCur
                             <th><div className="p-2 text-left">Họ và tên</div></th>
                              <th><div className="p-2 text-left">Khoa / Phòng ban</div></th>
                             <th>Trạng thái</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -29,6 +31,11 @@ function UserTable({ data, setShowTheoDoiThuoc, setSltPhieu, currentPage, setCur
                                 <td><div className="p-2 text-left">{item.fullname}</div></td>
                                 <td><div className="px-2 text-left">{item.department}</div></td>
                                 <td>{item.status}</td>
+                                <td className="px-2">
+                                    <button onClick={() => handleClickAdd('Sửa')}>
+                                        <FaEdit className="text-blue-400" />
+                                    </button>
+                                </td>
                             </tr>
                         ))}
                     </tbody>
