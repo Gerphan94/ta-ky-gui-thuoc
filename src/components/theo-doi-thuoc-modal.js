@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { PiSignature } from "react-icons/pi";
 import { FcSignature } from "react-icons/fc";
 
@@ -12,30 +12,33 @@ import HoanTatPhieuModal from "./hoan-tat-phieu-modal";
 const MedList = [
     {
         stt: 1,
-        thuoc: "ENTEROGERMINA 4 TỶ BÀO TỬ 5ml",
-        dvt: "Viên",
-        dvsd: "Viên",
-        loSX: "Lo 123",
-        soLuong: 10,
-        slsd: [1, 1]
+        thuoc: "Metoclopramide 10 mg/2 mL",
+        duongdung: 'Tiêm bắp/tiêm tĩnh mạch',
+        dvt: "Ống",
+        dvsd: "Ống",
+        loSX: "MCP-2408-11",
+        soLuong: 1,
+        slsd: []
     },
     {
         stt: 2,
-        thuoc: "Paracetamol 500mg",
-        dvt: "Viên",
-        dvsd: "Viên",
-        loSX: "Lo 123",
+        thuoc: "Paracetamol 1 g/100 mL",
+        dvt: "Chai",
+        duongdung: 'Dịch truyền tĩnh mạch',
+        dvsd: "ml",
+        loSX: "LPCM-2503-07",
         soLuong: 3,
-        slsd: [1]
+        slsd: []
     },
     {
         stt: 3,
         thuoc: "Amoxicillin 250mg",
         dvt: "Viên",
+        duongdung:"Uống",
         dvsd: "Viên",
-        loSX: "Lo 123",
+        loSX: "AM2503C",
         soLuong: 5,
-        slsd: [1]
+        slsd: []
     },
 
 ]
@@ -53,12 +56,19 @@ const slconlai = (sl, slsd) => {
         sum += slsd[i];
     }
     return sl - sum;
-}   
+}
+
+const NGAYS = [
+    { ngayylenh: "12/08/2025", daky: true },
+    { ngayylenh: "13/08/2025", daky: false },
+    { ngayylenh: "14/08/2025", daky: false }
+];
 
 
 
+export default function TheoDoiThuocModal({ sltPhieu, setShow, login }) {
 
-export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
+    console.log(sltPhieu)
 
 
     const [medicines, setmedicines] = useState(MedList);
@@ -68,31 +78,62 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
     const [ngayylenh, setNgayYLenh] = useState(today);
     const [showChuyenPhieu, setShowChuyenPhieu] = useState(false);
     const [showHoanTatPhieu, setShowHoanTatPhieu] = useState(false);
+    const [ngayylenhList, setNgayYLenhList] = useState([]);
 
-    const removeMedicine = (stt) => {
-        setmedicines((prev) => prev.filter((med) => med.stt !== stt));
+    const pdfUrl = `https://atm243452-s3user.vcos.cloudstorage.com.vn/duoc_test/2025/09/18/001/2025_09_18_001_c790ef6c-11ae-4324-a1f2-110c07beb0a0_V0.pdf?AWSAccessKeyId=atm243452-s3user&Expires=1758428541&Signature=mszo90DVmhlLFuY8GMcVIBGglLk%3D` // e.g. /public/docs/file.pdf
+
+    useEffect(() => {
+        if (sltPhieu.trangthai === "new") {
+            setNgayYLenhList([]);
+            
+        } else {
+            setNgayYLenhList(NGAYS);
+            // set slsd in medicines = [1,1]
+            setmedicines(
+                medicines.map((med) => {
+                    return {
+                        ...med,
+                        slsd: [1],
+                    };
+            }))
+        }
+
+    }, [sltPhieu.trangthai]);
+
+
+
+
+
+    const onClickNgayYLenh = (ngayylenh) => {
+        console.log('ngayylenh', ngayylenh)
+        // ngayylenh = Thu Sep 18 2025 11:31:39 GMT+0700 (Indochina Time)
+        // Convert to 18/09/2025
+        const converDate = new Date(ngayylenh);
+        const out = converDate.toLocaleDateString('en-GB', { timeZone: 'Asia/Bangkok' }); // '18/09/2025'
+
+        const newNgay = {
+            ngayylenh: out,
+            daky: false
+        };
+        setNgayYLenhList((prev) => [...prev, newNgay]);
+        setNgayYLenh(ngayylenh);
     };
 
-    const [ngayylenhList, setNgayYLenhList] = useState([
-        { ngayylenh: "12/08/2025", daky: true },
-        { ngayylenh: "13/08/2025", daky: false },
-        { ngayylenh: "14/08/2025", daky: false }
-    ]);
+    const trangphaiphieu = sltPhieu.trangthai;
 
 
 
-    if (!show) return null;
 
     return (
         <>
-            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-40">
-                <div className="bg-white rounded-lg shadow-lg max-w-7xl w-full max-h-[90vh] flex flex-col flex-grow overflow-y-auto px-6 py-4">
+            <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-40 p-20">
+                <div className="bg-white rounded-lg shadow-lg  w-full h-full  flex flex-col flex-grow overflow-y-auto px-6 py-4">
                     <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Theo dõi ký gửi - {sltPhieu.makygui}</h2>
-                    <div className="overflow-y-auto">
+                    <div className="overflow-y-auto h-full">
                         <div className="grid grid-cols-4 gap-4 items-center mt-4">
                             <div className="text-left">
                                 <label htmlFor="pid" className=" text-sm font-medium block">
-                                    PID
+                                    Mã BN:
                                 </label>
                                 <input
                                     id="pid"
@@ -114,51 +155,77 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                     className="border rounded px-2 py-1 mt-1 w-full"
                                 />
                             </div>
-                            <div className="text-left">
-                                <label htmlFor="phai" className="block text-sm font-medium">
-                                    Giới tính
-                                </label>
-                                <input
-                                    id="phai"
-                                    value={'Nam'}
-                                    disabled={true}
-                                    className="border rounded px-2 py-1 mt-1 w-full"
-                                />
+                            <div className="flex gap-2 items-center">
+                                <div className="text-left">
+                                    <label htmlFor="phai" className="block text-sm font-medium">
+                                        Giới tính
+                                    </label>
+                                    <input
+                                        id="phai"
+                                        value={'Nam'}
+                                        disabled={true}
+                                        className="border rounded px-2 py-1 mt-1 w-full"
+                                    />
+                                </div>
+                                <div className="text-left">
+                                    <label htmlFor="ngaysinh" className="block text-sm font-medium">
+                                        Ngày sinh
+                                    </label>
+                                    <input
+                                        id="ngaysinh"
+                                        value={'11/10/1997'}
+                                        disabled={true}
+                                        className="border rounded px-2 py-1 mt-1 w-full"
+                                    />
+                                </div>
+
                             </div>
                             <div className="text-left">
                                 <label htmlFor="ngaysinh" className="block text-sm font-medium">
-                                    Ngày sinh
+                                    Khoa/phòng:
                                 </label>
                                 <input
-                                    id="ngaysinh"
-                                    value={'11/10/1997'}
+                                    id="khoa-phong"
+                                    value={login.department}
                                     disabled={true}
                                     className="border rounded px-2 py-1 mt-1 w-full"
                                 />
                             </div>
 
-                        </div>
 
-                        <div className="flex gap-4 mt-4">
-                            <div className="text-left">
-                                <label className="block text-sm font-medium">Ngày y lệnh</label>
+                            <div className="flex gap-4 ">
+                                <div className="text-left">
+                                    <label className="block text-sm font-medium">Ngày y lệnh</label>
+                                    <input
+                                        type="date"
+                                        value={ngayylenh ? new Date(ngayylenh).toISOString().split("T")[0] : ""}
+                                        onChange={(e) => setNgayYLenh(e.target.value)}
+                                        className="border rounded px-2 py-1 mt-1 w-40"
+                                    />
+                                </div>
+                                <div className="flex flex-col justify-end">
+                                    <div></div>
+                                    <button
+                                        className="border rounded px-2 py-1 mt-1 bg-blue-500 text-white hover:bg-blue-700"
+                                        onClick={() => onClickNgayYLenh(ngayylenh)} // ✅ Correct date format: YYYY-MM-DD ngayylenh])}
+                                    >
+                                        Thêm
+                                    </button>
+                                </div>
+                            </div>
+                            <div className="text-left w-full col-span-3">
+                                <label className="block text-sm font-medium">Ghi chú:</label>
                                 <input
-                                    type="date"
-                                    value={ngayylenh ? new Date(ngayylenh).toISOString().split("T")[0] : ""}
-                                    onChange={(e) => setNgayYLenh(e.target.value)}
-                                    className="border rounded px-2 py-1 mt-1 w-40"
+                                    type="text"
+                                    placeholder="Nhập khi chú"
+                                    value={note}
+                                    onChange={(e) => setNote(e.target.value)}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
                                 />
                             </div>
-                            <div className="flex flex-col justify-end">
-                                <div></div>
-                                <button
-                                    className="border rounded px-2 py-1 mt-1 bg-blue-500 text-white hover:bg-blue-700"
-                                    onClick={() => setNgayYLenhList([...ngayylenhList, formatted(ngayylenh)])} // ✅ Correct date format: YYYY-MM-DD ngayylenh])}
-                                >
-                                    Thêm
-                                </button>
-                            </div>
                         </div>
+
+
                         {/* Medicine Table */}
                         <div className="border rounded-lg overflow-hidden mt-4 overflow-x-auto text-sm">
                             <table className="w-full border-collapse">
@@ -166,14 +233,16 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                     <tr className="bg-slate-700 text-white">
                                         <th className="p-2 w-10">STT</th>
                                         <th className="p-2 ">Thuốc</th>
+                                        <th className="p-2 text-left px-3">Đường dùng</th>
                                         <th className="p-2 w-20">ĐVT</th>
                                         <th className="p-2 w-20">ĐVSD</th>
                                         <th className="p-2 w-20 text-left">Lô SX</th>
-                                        <th className="p-2 w-24">Số lượng</th>
+                                        <th className="p-2 w-24">SL</th>
                                         <th className="p-2 ">SL còn lại</th>
+                                        <th className="p-2 ">Cách dùng</th>
                                         <th className="p-2 ">Ghi chú</th>
                                         {ngayylenhList.map((ngayylenh, index) => (
-                                            <th key={index} className="p-2 w-20 text-center text-sm">{ngayylenh.ngayylenh}</th>
+                                            <th key={index} className="p-2 w-20 text-center text-sm">{ngayylenh.ngayylenh} </th>
                                         ))}
                                     </tr>
                                 </thead>
@@ -182,8 +251,9 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                         <tr key={medicine.stt} className="border-t">
                                             <td className="p-2 text-center">{index + 1}</td>
                                             <td className="p-2 font-medium text-left">
-                                                <div className="w-80">{medicine.thuoc}
-                                                </div></td>
+                                                <div className="w-80">{medicine.thuoc}</div>
+                                            </td>
+                                            <td><div className="text-left truncate px-3">{medicine.duongdung}</div></td>
                                             <td className="p-2 text-center">{medicine.dvt}</td>
                                             <td className="p-2 text-center">{medicine.dvsd}</td>
                                             <td className="p-2 text-left">
@@ -191,7 +261,10 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                             </td>
                                             <td className="p-2 text-center">{medicine.soLuong}</td>
                                             <td className="p-2 text-center">
-                                                <div className="w-24"> {slconlai(medicine.soLuong, medicine.slsd)}</div>
+                                                <div className="w-24"> {trangphaiphieu === 'new' ? medicine.soLuong : trangphaiphieu === 'complete' ? 0 : slconlai(medicine.soLuong, medicine.slsd)}</div>
+                                            </td>
+                                            <td>
+                                                <input className="border rounded p-1 outline-none" />
                                             </td>
                                             <td className="p-2 text-center">
                                                 <textarea
@@ -203,7 +276,7 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                                 <td key={index} className="p-2 text-center">
                                                     <input
                                                         disabled={ngayylenh.daky}
-                                                        type="number"
+                                                        type="text"
                                                         value={medicine.slsd[index]}
                                                         className="border rounded px-2 py-1 w-20"
                                                     />
@@ -211,10 +284,10 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                             ))}
                                         </tr>
                                     ))}
-                                    <tr className="border-t">
-                                        <td colSpan={6}></td>
-                                        <td colSpan={2} className="text-center">
-                                            <div className="text-sm">
+                                    <tr className="border-t ">
+                                        <td colSpan={8}></td>
+                                        <td colSpan={2} className="text-center ">
+                                            <div className="text-sm py-2">
                                                 Người thực hiện ký
                                             </div>
                                         </td>
@@ -230,9 +303,9 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                                         ))}
                                     </tr>
                                     <tr className="border-t">
-                                        <td colSpan={6}></td>
+                                        <td colSpan={8}></td>
                                         <td colSpan={2} className="text-center">
-                                            <div className="text-sm">
+                                            <div className="text-sm py-2">
                                                 Người bệnh ký
                                             </div>
                                         </td>
@@ -254,23 +327,47 @@ export default function TheoDoiThuocModal({ sltPhieu, show, setShow }) {
                     {/* Actions */}
                     <div className="flex justify-between gap-4 pt-4">
                         <div className="flex gap-2">
-                            <button
-                                className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded"
-                                onClick={() => setShowHoanTatPhieu(true)}
-                            >
-                                Hoàn tất
-                            </button>
-                            <button
-                                className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded"
-                                onClick={() => setShowChuyenPhieu(true)}
-                            >
-                                Chuyển phiếu
-                            </button>
+                            {trangphaiphieu === 'complete' &&
+                                <button
+                                    className="bg-white text-red-600 border-red-500 border  px-8 py-1.5 rounded"
+                                    onClick={() => setShowHoanTatPhieu(true)}
+                                >
+                                    Mở khóa
+                                </button>
+                            }
+                            {trangphaiphieu !== 'complete' &&
+                                <button
+                                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded"
+                                    onClick={() => setShowHoanTatPhieu(true)}
+                                >
+                                    Hoàn tất
+                                </button>
+                            }
+                            {trangphaiphieu !== 'complete' &&
+                                <button
+                                    className="bg-green-600 hover:bg-green-700 text-white px-8 py-1.5 rounded"
+                                    onClick={() => setShowChuyenPhieu(true)}
+                                >
+                                    Chuyển phiếu
+                                </button>
+                            }
                         </div>
                         <div className="flex gap-2">
-                            <button onClick={() => setShow(false)} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
-                                Lưu
-                            </button>
+                            {trangphaiphieu !== 'new' &&
+                                <a
+                                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded"
+                                    href={pdfUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    In
+                                </a>
+                            }
+                            {trangphaiphieu !== 'complete' &&
+                                <button onClick={() => setShow(false)} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
+                                    Lưu
+                                </button>
+                            }
                             <button
                                 onClick={() => setShow(false)}
                                 className="border border-red-600 text-red-600 hover:bg-red-50 px-8 py-1.5 rounded"

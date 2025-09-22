@@ -24,7 +24,7 @@ function ChuyenPhieuModal({ show, setShow }) {
                         </div>
 
                     </div>
-                    <div className="flex justify-center gap-4 pt-4 text-sm">
+                    <div className="flex justify-end gap-4 pt-4 text-sm">
 
 
                         <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">

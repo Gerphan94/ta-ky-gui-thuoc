@@ -23,6 +23,7 @@ function KyGuiTable({
             hoten: item.hoten,
             gioitinh: item.gioitinh,
             ngaysinh: item.ngaysinh,
+            trangthai: item.trangthai
         });
     };
     const handleClickSua = (item) => {
@@ -39,8 +40,6 @@ function KyGuiTable({
     return (
         <>
             <div>
-
-
                 <table className="w-full">
                     <thead>
                         <tr className="bg-slate-700 hover:bg-slate-700 text-white font-medium">

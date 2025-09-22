@@ -31,6 +31,7 @@ function KyGuiThuoc() {
         hoten: "",
         gioitinh: "",
         ngaysinh: "",
+        trangthai: '',
     });
 
     const login = {
@@ -191,7 +192,14 @@ function KyGuiThuoc() {
             {showTaoKyGui && <CreateRequestModal setShow={setShowTaoKyGui} login={login} />}
             {showSuaKyGui && <EditRequestModal sltPhieu={sltPhieu} setShow={setShowSuaKyGui} />}
 
-            <TheoDoiThuocModal sltPhieu={sltPhieu} show={showTheodoiThuoc} setShow={setShowTheoDoiThuoc} />
+            {showTheodoiThuoc &&
+                <TheoDoiThuocModal
+                    sltPhieu={sltPhieu}
+                    setShow={setShowTheoDoiThuoc}
+                    login={login} />
+
+
+            }
             <XacNhanModal show={showXacNhan} setShow={setShowXacNhan} />
 
         </>
