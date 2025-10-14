@@ -80,7 +80,10 @@ export default function TheoDoiThuocModal({ sltPhieu, setShow, login }) {
     const [showHoanTatPhieu, setShowHoanTatPhieu] = useState(false);
     const [ngayylenhList, setNgayYLenhList] = useState([]);
 
-    const pdfUrl = `https://atm243452-s3user.vcos.cloudstorage.com.vn/duoc_test/2025/09/18/001/2025_09_18_001_c790ef6c-11ae-4324-a1f2-110c07beb0a0_V0.pdf?AWSAccessKeyId=atm243452-s3user&Expires=1758428541&Signature=mszo90DVmhlLFuY8GMcVIBGglLk%3D` // e.g. /public/docs/file.pdf
+    const openPDF = () => {
+    window.open(process.env.PUBLIC_URL + '/docs/file.pdf', '_blank');
+  };
+
 
     useEffect(() => {
         if (sltPhieu.trangthai === "new") {
@@ -352,19 +355,19 @@ export default function TheoDoiThuocModal({ sltPhieu, setShow, login }) {
                                 </button>
                             }
                         </div>
-                        <div className="flex gap-2">
+                        <div className="flex gap-2 select-none">
                             {trangphaiphieu !== 'new' &&
-                                <a
+                                <button
                                     className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded"
-                                    href={pdfUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                    onClick={openPDF}
+                                   
                                 >
                                     In
-                                </a>
+                                </button>
                             }
                             {trangphaiphieu !== 'complete' &&
-                                <button onClick={() => setShow(false)} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
+                                <button onClick={() => setShow(false)} 
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-1.5 rounded">
                                     Lưu
                                 </button>
                             }
