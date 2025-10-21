@@ -11,12 +11,12 @@ const randomCode = (name) => {
 
 
 const availableMedicines = [
-    { id: 1, medcode: 'ent001', name: "Enterogermina 4 tỷ bào tử/5ml", dvt: "Ống", dvsd: "Ống", sl: 10, losx: "EN2507A" },
-    { id: 2, medcode: 'par001', name: "Paracetamol 500mg", dvt: "Viên", dvsd: "Viên", sl: 3, losx: "PA2406B" },
-    { id: 3, medcode: 'amo001', name: "Amoxicillin 250mg", dvt: "Viên", dvsd: "Viên", sl: 5, losx: "AM2503C" },
-    { id: 4, medcode: 'acar001', name: "Acarbose Friulchem 100mg", dvt: "Viên", dvsd: "Viên", sl: 10, losx: "AC2505D" },
-    { id: 5, medcode: 'coz001', name: "Cozaar 100mg (Losartan)", dvt: "Viên", dvsd: "Viên", sl: 3, losx: "CZ2504E" },
-    { id: 6, medcode: 'des001', name: "Desbebe 0,5mg/ml; chai 60ml", dvt: "Chai", dvsd: "ml", sl: 1, losx: "DB2506F" }
+    { id: 1, medcode: 'ent001', name: "Enterogermina 4 tỷ bào tử/5ml", dvt: "Ống", dvsd: "Ống", duongdung: "Tiêm bắp/tiểm tĩnh mạch", sl: 10, losx: "EN2507A" },
+    { id: 2, medcode: 'par001', name: "Paracetamol 500mg", dvt: "Viên", dvsd: "Viên", duongdung: "Uống", sl: 3, losx: "PA2406B" },
+    { id: 3, medcode: 'amo001', name: "Amoxicillin 250mg", dvt: "Viên", dvsd: "Viên", duongdung: "Uống", sl: 5, losx: "AM2503C" },
+    { id: 4, medcode: 'acar001', name: "Acarbose Friulchem 100mg", dvt: "Viên", dvsd: "Viên", duongdung: "Uống", sl: 10, losx: "AC2505D" },
+    { id: 5, medcode: 'coz001', name: "Cozaar 100mg (Losartan)", dvt: "Viên", dvsd: "Viên", duongdung: "Uống", sl: 3, losx: "CZ2504E" },
+    { id: 6, medcode: 'des001', name: "Desbebe 0,5mg/ml; chai 60ml", dvt: "Chai", dvsd: "ml", duongdung: "Tiêm", sl: 1, losx: "DB2506F" }
 ]
 
 const MedList = [
@@ -27,6 +27,7 @@ const MedList = [
         thuoc: "ENTEROGERMINA 4 TỶ BÀO TỬ 5ml",
         dvt: "Viên",
         dvsd: "Viên",
+        duongdung: "Uống",
         loSX: "EN2507A",
         soLuong: 10,
     },
@@ -37,6 +38,7 @@ const MedList = [
         thuoc: "Paracetamol 500mg",
         dvt: "Viên",
         dvsd: "Viên",
+        duongdung: "Uống",
         loSX: "PA2406B",
         soLuong: 3,
     },
@@ -50,6 +52,7 @@ export default function CreateRequestModal({ setShow, login }) {
     const [medicineName, setMedicineName] = useState("");
     const [medicineUnit, setMedicineUnit] = useState("");
     const [medicineUsedUnit, setMedicineUsedUnit] = useState("");
+    const [medicineRouteOfAdministration, setMedicineRouteOfAdministration] = useState("");
     const [medicineQuantity, setMedicineQuantity] = useState("");
     const [batchNumber, setBatchNumber] = useState("");
     const [addedMedicines, setAddedMedicines] = useState(MedList);
@@ -88,6 +91,7 @@ export default function CreateRequestModal({ setShow, login }) {
                 thuoc: medicineName,
                 dvt: medicineUnit,
                 dvsd: medicineUsedUnit,
+                duongdung: medicineRouteOfAdministration,
                 loSX: batchNumber,
                 soLuong: Number.parseInt(medicineQuantity),
             };
@@ -100,6 +104,7 @@ export default function CreateRequestModal({ setShow, login }) {
             setMedicineUnit("");
             setMedicineUsedUnit("");
             setMedicineQuantity("");
+            setMedicineRouteOfAdministration("");
             setBatchNumber("");
 
         }
@@ -112,6 +117,7 @@ export default function CreateRequestModal({ setShow, login }) {
         setMedicineName(availableMedicines.find((med) => med.id === Number.parseInt(sltId)).name);
         setMedicineUnit(availableMedicines.find((med) => med.id === Number.parseInt(sltId)).dvt);
         setMedicineUsedUnit(availableMedicines.find((med) => med.id === Number.parseInt(sltId)).dvsd);
+        setMedicineRouteOfAdministration(availableMedicines.find((med) => med.id === Number.parseInt(sltId)).duongdung);
         setMedicineQuantity(availableMedicines.find((med) => med.id === Number.parseInt(sltId)).sl);
         setBatchNumber(availableMedicines.find((med) => med.id === Number.parseInt(sltId)).losx);
     };
@@ -120,7 +126,7 @@ export default function CreateRequestModal({ setShow, login }) {
     return (
         <>
             <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-                <div className="bg-white rounded-lg shadow-lg max-w-6xl w-full max-h-[90vh] overflow-y-hidden px-6 py-4 flex flex-col flex-grow">
+                <div className="bg-white rounded-lg shadow-lg max-w-7xl w-full max-h-[90vh] overflow-y-hidden px-6 py-4 flex flex-col flex-grow">
                     <h2 className="text-xl font-bold text-gray-800 mb-4 text-left">Tạo Ký gửi thuốc</h2>
                     <div className="overflow-y-auto h-full">
                         <div className="grid grid-cols-4 gap-4 items-center mt-4">
@@ -215,7 +221,7 @@ export default function CreateRequestModal({ setShow, login }) {
                                     <select
                                         value={sltMedicineId}
                                         onChange={(e) => handleChangeThuoc(e)}
-                                        className="border rounded px-2 py-1 mt-1 w-full text-[#102E50]"
+                                        className="border rounded px-2 py-1 mt-1 w-full text-[#102E50] font-medium"
                                     >
                                         <option value={0} disabled hidden>
                                             Chọn thuốc
@@ -244,6 +250,14 @@ export default function CreateRequestModal({ setShow, login }) {
                                 <input
                                     value={medicineUsedUnit}
                                     onChange={(e) => setMedicineUsedUnit(e.target.value)}
+                                    className="border rounded px-2 py-1 mt-1 w-full"
+                                />
+                            </div>
+                            <div className="w-32">
+                                <label className="block text-sm font-medium">Đường dùng:</label>
+                                <input
+                                    value={medicineRouteOfAdministration}
+                                    onChange={(e) => setMedicineRouteOfAdministration(e.target.value)}
                                     className="border rounded px-2 py-1 mt-1 w-full"
                                 />
                             </div>
@@ -286,6 +300,7 @@ export default function CreateRequestModal({ setShow, login }) {
                                         <th className="p-2">Thuốc</th>
                                         <th className="p-2 w-20">ĐVT</th>
                                         <th className="p-2 w-20">ĐVSD</th>
+                                        <th className="p-2 w-32 text-left">Đường dùng</th>
                                         <th className="p-2 w-32 text-left">Lô SX</th>
                                         <th className="p-2 w-24">Số lượng</th>
                                         <th className="p-2 w-16"></th>
@@ -298,6 +313,7 @@ export default function CreateRequestModal({ setShow, login }) {
                                             <td className="p-2 font-medium text-left">{medicine.thuoc}</td>
                                             <td className="p-2 text-center">{medicine.dvt}</td>
                                             <td className="p-2 text-center">{medicine.dvsd}</td>
+                                            <td className="p-2 text-left">{medicine.duongdung}</td>
                                             <td className="p-2 text-left">{medicine.loSX}</td>
                                             <td className="p-2 text-center">{medicine.soLuong}</td>
                                             <td className="p-2 text-center">
