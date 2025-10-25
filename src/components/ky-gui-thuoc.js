@@ -5,11 +5,12 @@ import CreateRequestModal from "./tao-ky-gui-modal";
 import EditRequestModal from "./sua-ky-gui-modal";
 import TheoDoiThuocModal from "./theo-doi-thuoc-modal";
 import XacNhanModal from "./xac-nhan-modal";
+import RefundModal from "./hoan-tra-modal";
 
 import { CiSearch } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { IoMdPerson } from "react-icons/io";
-import { use } from "react";
+
 
 
 function KyGuiThuoc() {
@@ -20,6 +21,7 @@ function KyGuiThuoc() {
     const [showTaoKyGui, setShowTaoKyGui] = useState(false);
     const [showSuaKyGui, setShowSuaKyGui] = useState(false);
     const [showTheodoiThuoc, setShowTheoDoiThuoc] = useState(false);
+    const [showHoanTra, setShowHoanTra] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [showXacNhan, setShowXacNhan] = useState(false);
@@ -182,6 +184,7 @@ function KyGuiThuoc() {
                             setShowSuaKyGui={setShowSuaKyGui}
                             currentPage={currentPage}
                             setCurrentPage={setCurrentPage}
+                            setShowHoanTra={setShowHoanTra}
                         />
                     </div>
 
@@ -191,6 +194,7 @@ function KyGuiThuoc() {
             </div>
             {showTaoKyGui && <CreateRequestModal setShow={setShowTaoKyGui} login={login} />}
             {showSuaKyGui && <EditRequestModal sltPhieu={sltPhieu} setShow={setShowSuaKyGui} />}
+            {showHoanTra && <RefundModal sltPhieu={sltPhieu} setShow={setShowHoanTra} />}
 
             {showTheodoiThuoc &&
                 <TheoDoiThuocModal

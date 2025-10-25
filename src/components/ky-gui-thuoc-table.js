@@ -1,4 +1,5 @@
 import Pagination from "./pagination";
+import { MdAssignmentReturn, MdRemoveRedEye  } from "react-icons/md";
 
 function KyGuiTable({
     data,
@@ -6,7 +7,8 @@ function KyGuiTable({
     setSltPhieu,
     currentPage, setCurrentPage,
     setShowXacNhan,
-    setShowSuaKyGui
+    setShowSuaKyGui,
+    setShowHoanTra
 }) {
 
     const itemsPerPage = 10;
@@ -76,11 +78,13 @@ function KyGuiTable({
                                     {item.khoa}
                                 </td>
                                 <td>
-                                    <div className="text-sm select-none">
+                                    <div className="text-sm select-none flex gap-1">
                                         {item.trangthai !== 'w8' &&
-                                            <button className="bg-green-500 text-white py-1 px-2 rounded"
+                                            <button className="bg-green-500 text-white p-1 rounded"
                                                 onClick={() => handleClickThuoc(item)}
-                                            >Chi tiết</button>
+                                            >
+                                                <MdRemoveRedEye className="size-5" />
+                                            </button>
                                         }
 
                                         {/* {item.trangthai === 'new' &&
@@ -93,6 +97,14 @@ function KyGuiTable({
                                                 onClick={() => setShowXacNhan(true)}
 
                                             >Xác nhận</button>}
+                                        {item.trangthai === 'complete' &&
+                                            <button
+                                                className="bg-blue-500 text-white p-1 rounded ml-2"
+                                                onClick={() => setShowHoanTra(true)}
+                                            >
+                                                <MdAssignmentReturn className="size-5" />
+                                            </button>}
+
 
                                     </div>
 
